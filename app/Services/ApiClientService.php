@@ -14,8 +14,8 @@ class ApiClientService
 
         $response = $client->post('https://api.adviz.pro/api/auth/login', [
             'json' => [
-                'email' => 'support@web-kiborg.ru',
-                'password' => 'dMu6cQuGnu8qB3R',
+                'email' => config('services.adviz.email'),
+                'password' => config('services.adviz.password'),
             ],
         ]);
 

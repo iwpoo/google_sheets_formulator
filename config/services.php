@@ -37,4 +37,8 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
 
+    'adviz' => [
+        'email' => env('ADVIZ_EMAIL'),
+        'password' => env('ADVIZ_PASSWORD'),
+    ],
 ];
