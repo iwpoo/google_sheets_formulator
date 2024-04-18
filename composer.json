@@ -5,11 +5,16 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.1",
-        "guzzlehttp/guzzle": "^7.2",
+        "php": "^8.2",
+        "ext-simplexml": "*",
+        "google/apiclient": "^2.15",
+        "guzzlehttp/guzzle": "^7.8",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
-        "laravel/tinker": "^2.8"
+        "laravel/socialite": "^5.12",
+        "laravel/tinker": "^2.8",
+        "maatwebsite/excel": "3.1.55",
+        "ext-libxml": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
