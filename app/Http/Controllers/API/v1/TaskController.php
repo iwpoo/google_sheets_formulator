@@ -25,6 +25,8 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
+        return 'ss';
+
         $validator = Validator::make($request->all(), [
             'source' => 'required',
             'result_table_id' => 'required',

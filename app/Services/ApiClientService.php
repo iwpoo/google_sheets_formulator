@@ -6,6 +6,11 @@ use GuzzleHttp;
 
 class ApiClientService
 {
+    public function __construct(
+        protected XMLService $xmlService,
+        protected ExcelService $excelService
+    ) {}
+
     public function getAccessToken(): string
     {
         $client = new GuzzleHttp\Client([
@@ -40,7 +45,12 @@ class ApiClientService
 
     public function getDataAboutList(string $source): ?array
     {
-        //$categories = $this->getCategories($source);
+        $categories = $this->xmlService->getCategories($source);
+        return $categories;
+
+
+
+        return $treePath;
 
         $treePath = ["Услуги", "Предложения услуг", "Другое"];
         $hash = md5(implode('', $treePath));

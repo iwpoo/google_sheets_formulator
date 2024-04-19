@@ -31,7 +31,7 @@ class ExcelService
             $categories[] = $item['category'];
         }
 
-        return $categories;
+        return array_unique($categories);
     }
 
     public function getDataOfCategory(string $filePath, string $category): array
