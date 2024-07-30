@@ -15,7 +15,3 @@ use App\Http\Controllers\API\v1\AuthController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});

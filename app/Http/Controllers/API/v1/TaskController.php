@@ -6,13 +6,14 @@ use App\Enums\StatusTaskEnum;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessGoogleSheetTask;
 use App\Models\Task;
-use App\Services\ApiClientService;
 use App\Services\ExcelService;
 use App\Services\GoogleSheetService;
 use App\Services\XMLService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class TaskController extends Controller
 {
@@ -20,28 +21,26 @@ class TaskController extends Controller
         protected ExcelService $excelService,
         protected XMLService $xmlService,
         protected GoogleSheetService $googleSheetService,
-        protected ApiClientService $apiClientService
     ) {}
 
     public function store(Request $request)
     {
-        return 'ss';
-
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'source' => 'required',
             'result_table_id' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
+        if ($request->hasFile('source')) {
+            $uniqueId = Str::uuid();
+            $source = $request->file('source')->storeAs('excel_files', "excel_$uniqueId.xlsx");
+        } else {
+            $source = $request->input('source');
         }
-
-        $source = $request->hasFile('source') ? $request->file('source') : $request->input('source');
 
         $task = Task::create([
             'source' => $source,
             'result_table_id' => $request->input('result_table_id'),
-            'status' => StatusTaskEnum::CREATED->value,
+            'status' => StatusTaskEnum::CREATED,
         ]);
 
         ProcessGoogleSheetTask::dispatch(
@@ -50,20 +49,13 @@ class TaskController extends Controller
             $this->excelService,
             $this->xmlService,
             $this->googleSheetService,
-            $this->apiClientService
         );
 
-        return response()->json(['task_id' => $task->id], 201);
+        return response()->json(array_merge($task->toArray(), ['task_id' => $task->id]), Response::HTTP_CREATED);
     }
 
-    public function show($task_id): JsonResponse
+    public function show(Task $task): JsonResponse
     {
-        $task = Task::find($task_id);
-
-        if (!$task) {
-            return response()->json(['error' => 'Task not found'], 404);
-        }
-
-        return response()->json(['status' => $task->status], 200);
+        return response()->json($task->toArray());
     }
 }

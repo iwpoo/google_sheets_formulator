@@ -31,14 +31,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'google' => [
-        'client_id' => env('GOOGLE_CLIENT_ID'),
-        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => env('GOOGLE_REDIRECT_URI'),
-    ],
-
     'adviz' => [
         'email' => env('ADVIZ_EMAIL'),
         'password' => env('ADVIZ_PASSWORD'),
+        'url' => 'https://api.adviz.pro/api',
     ],
+
+    'parser_adviz' => [
+        'token' => env('PARSER_ADVIZ_TOKEN'),
+        'url' => 'https://parser.adviz.pro/api/v1',
+    ]
 ];
